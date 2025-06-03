@@ -4,6 +4,8 @@ from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
+from rest_framework import serializers
+from api import serializers
 from api.models import BookingList,Class
 from api.serializers import ClassSerializers,BookingListSerializers
 # Create your views here.
@@ -19,6 +21,8 @@ class ClassView(APIView):
 class BookView(APIView):
   def get(self,request,*args,**kwargs):
     class_id=request.data.get('class_id')
+    if class_id==None:
+      raise serializers.serializers.ValidationError('Class ID not provided inorder to book the class')
     clas=Class.objects.get(id=class_id)
     if clas.available_slots==0:
       return Response(data={'message':'This class has been filled'})
@@ -35,6 +39,8 @@ class BookView(APIView):
 class BookingListView(APIView):
   def get(self,request,*args,**kwargs):
     email=request.data.get('client_email')
+    if email==None:
+      raise serializers.serializers.ValidationError('Please give client email to check the booking')
     qs=BookingList.objects.filter(client_email=email)
     deserializer=BookingListSerializers(qs,many=True)
     return Response(data=deserializer.data)
