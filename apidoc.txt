@@ -1,0 +1,22 @@
+1.api to get all the classes
+
+    url:http://127.0.0.1:8000/classes/
+    method:get
+    data:nill
+    authorization:nill
+
+
+2.api to book the classes
+
+    url:http://127.0.0.1:8000/book/
+    method:post
+    data:{class_id, client_name, client_email}
+    authorization:nill
+
+
+3.api to get the booking by specific email
+
+    url:http://127.0.0.1:8000/bookings/
+    method:get
+    data:{client_email}
+    authorization:nill
